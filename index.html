@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust Adventures - Discover Your Next Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style id="design-tokens">
+      :root {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc; /* Lightest blue-gray */
+        --text-primary: #0f172a; /* Deep slate */
+        --text-secondary: #475569; /* Soft gray */
+        --brand-accent: #2563eb; /* Vibrant blue */
+        --border-color: #f1f5f9; /* Light border */
+      }
+
+      /* Button Shimmer Effect */
+      @keyframes shimmer {
+        100% {
+          transform: translateX(100%);
+        }
+      }
+      .animate-shimmer {
+        position: relative;
+        overflow: hidden;
+      }
+      .animate-shimmer::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+        background-image: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.25) 20%,
+          rgba(255, 255, 255, 0.5) 60%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        animation: shimmer 3s infinite;
+        content: '';
+      }
+      
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+</head>
+<body class="bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-[var(--bg-primary)]/95 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-extrabold text-[var(--brand-accent)] tracking-tight hover:opacity-90 transition-opacity">
+                Wanderlust<span class="text-sky-500">.</span>
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#hero" class="text-[var(--text-secondary)] hover:text-[var(--brand-accent)] font-semibold text-sm tracking-wide uppercase transition-colors duration-200">Home</a>
+                <a href="#features" class="text-[var(--text-secondary)] hover:text-[var(--brand-accent)] font-semibold text-sm tracking-wide uppercase transition-colors duration-200">Features</a>
+                <a href="#cta" class="text-[var(--text-secondary)] hover:text-[var(--brand-accent)] font-semibold text-sm tracking-wide uppercase transition-colors duration-200">Get Started</a>
+                
+                <!-- Booking Button -->
+                <button onclick="openBookingModal()" class="group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold text-sm tracking-wider uppercase rounded-full shadow-[0_4px_14px_rgba(37,99,235,0.3)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.5)] active:scale-95 transition-all duration-300 overflow-hidden flex items-center gap-2">
+                    <span class="relative z-10">Book a Tour</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                    <span class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu Toggle Button (Hamburger) -->
+            <button id="mobile-menu-btn" class="md:hidden p-2.5 rounded-xl border border-slate-200 hover:border-slate-300 text-[var(--text-primary)] hover:bg-slate-50 transition-all duration-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div class="fixed right-0 top-0 bottom-0 w-80 bg-white shadow-2xl p-6 flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-in-out" id="mobile-menu-content">
+            <div>
+                <div class="flex justify-between items-center mb-8">
+                    <span class="text-xl font-bold text-[var(--brand-accent)]">Navigation</span>
+                    <button id="close-menu-btn" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex flex-col space-y-4">
+                    <a href="#hero" onclick="closeMobileMenu()" class="text-lg font-semibold text-slate-800 hover:text-[var(--brand-accent)] py-2 transition-colors">Home</a>
+                    <a href="#features" onclick="closeMobileMenu()" class="text-lg font-semibold text-slate-800 hover:text-[var(--brand-accent)] py-2 transition-colors">Features</a>
+                    <a href="#cta" onclick="closeMobileMenu()" class="text-lg font-semibold text-slate-800 hover:text-[var(--brand-accent)] py-2 transition-colors">Get Started</a>
+                </div>
+            </div>
+            <div>
+                <button onclick="closeMobileMenu(); openBookingModal();" class="w-full py-4 bg-gradient-to-r from-blue-600 to-sky-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl active:scale-95 transition-all">
+                    Book a Tour
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+            <img src="https://picsum.photos/seed/mountainpeak/1920/1080" alt="Majestic mountain landscape" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 bg-slate-950/65 z-10"></div>
+            <div class="relative z-20 max-w-4xl px-6 text-white">
+                <h1 class="text-4xl md:text-7xl font-black tracking-tight leading-none mb-6 drop-shadow-xl">
+                    Discover Your Next <span class="bg-gradient-to-r from-blue-400 to-sky-300 bg-clip-text text-transparent">Unforgettable</span> Adventure
+                </h1>
+                <p class="text-base md:text-2xl font-light mb-10 text-slate-200 max-w-2xl mx-auto leading-relaxed">
+                    Explore breathtaking corners of the planet and create lasting memories with our curated experiential tours.
+                </p>
+                
+                <!-- CTA Button -->
+                <button onclick="openBookingModal()" class="animate-shimmer group inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 bg-[size:200%_auto] text-white text-lg font-extrabold rounded-full shadow-[0_10px_30px_rgba(37,99,235,0.4)] hover:shadow-[0_15px_40px_rgba(37,99,235,0.6)] hover:scale-105 active:scale-95 transition-all duration-300">
+                    <span>Start Your Journey</span>
+                    <div class="w-6 h-6 flex items-center justify-center rounded-full bg-white/20 group-hover:bg-white/30 transition-colors duration-300">
+                        <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-28 bg-[var(--bg-secondary)]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-center mb-4 text-slate-900">Why Choose Us?</h2>
+                <p class="text-center text-base md:text-lg text-slate-500 max-w-xl mx-auto mb-16">Uncompromising standards, handpicked routes, and complete dedication to your comfort.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    
+                    <!-- Feature 1 -->
+                    <div class="group bg-[var(--bg-primary)] p-8 rounded-2xl shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 border border-slate-100 flex flex-col items-center">
+                        <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-tr from-blue-600 to-sky-400 rounded-2xl mb-8 group-hover:scale-110 group-hover:rotate-3 shadow-[0_8px_20px_rgba(37,99,235,0.15)] group-hover:shadow-[0_12px_24px_rgba(37,99,235,0.3)] transition-all duration-300">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-extrabold text-slate-900 mb-4">Unique Destinations</h3>
+                        <p class="text-[var(--text-secondary)] text-md text-center leading-relaxed">
+                            From secluded tropical beaches to majestic alpine peaks, we tailor our pathways to bring your travel dreams to life.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="group bg-[var(--bg-primary)] p-8 rounded-2xl shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 border border-slate-100 flex flex-col items-center">
+                        <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-tr from-blue-600 to-sky-400 rounded-2xl mb-8 group-hover:scale-110 group-hover:rotate-3 shadow-[0_8px_20px_rgba(37,99,235,0.15)] group-hover:shadow-[0_12px_24px_rgba(37,99,235,0.3)] transition-all duration-300">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 4a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1h10a1 1 0 011 1v4m-4 10h2m-2 4h2M7 12H5c-1.105 0-2-.895-2-2s.895-2 2-2h2"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-extrabold text-slate-900 mb-4">Curated Itineraries</h3>
+                        <p class="text-[var(--text-secondary)] text-md text-center leading-relaxed">
+                            Our local guides design deep, immersive routes rich with local culture, hidden spots, and historical treasures.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="group bg-[var(--bg-primary)] p-8 rounded-2xl shadow-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 border border-slate-100 flex flex-col items-center">
+                        <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-tr from-blue-600 to-sky-400 rounded-2xl mb-8 group-hover:scale-110 group-hover:rotate-3 shadow-[0_8px_20px_rgba(37,99,235,0.15)] group-hover:shadow-[0_12px_24px_rgba(37,99,235,0.3)] transition-all duration-300">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 0A3.999 3.999 0 0112 10.5c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2zm0 0l3.536-3.536m-7.072 7.072L5.636 18.364m0 0A3.999 3.999 0 0110.5 12c0 1.105-.895 2-2 2s-2-.895-2-2 2-.895 2-2zm0 0L18.364 5.636"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-extrabold text-slate-900 mb-4">24/7 Global Support</h3>
+                        <p class="text-[var(--text-secondary)] text-md text-center leading-relaxed">
+                            Travel with complete peace of mind knowing our dedicated support team is on standby to assist you at any stage.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call-To-Action Section -->
+        <section id="cta" class="relative py-28 md:py-36 flex items-center justify-center text-center overflow-hidden">
+            <img src="https://picsum.photos/seed/beachsunset/1920/800" alt="Beautiful sunset on the beach" class="absolute inset-0 w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-950/80 to-indigo-900/80 z-10"></div>
+            <div class="relative z-20 max-w-3xl px-6 text-white">
+                <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-8 drop-shadow-lg">
+                    Ready to Explore the World?
+                </h2>
+                <p class="text-lg md:text-2xl font-light mb-12 text-slate-200 opacity-95 max-w-xl mx-auto leading-relaxed">
+                    Your dream vacation is just a click away. Let us design an unforgettable getaway perfect for you.
+                </p>
+                
+                <!-- CTA Booking Trigger -->
+                <button onclick="openBookingModal()" class="group inline-flex items-center gap-3 px-12 py-6 bg-white text-slate-950 text-xl font-black rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.3)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.45)] hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all duration-300">
+                    <span>Plan Your Trip Now</span>
+                    <svg class="w-5 h-5 text-blue-600 transform group-hover:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-white py-16 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12 text-center md:text-left">
+            <div class="space-y-4">
+                <h3 class="text-3xl font-black text-transparent bg-gradient-to-r from-blue-400 to-sky-300 bg-clip-text tracking-tight mb-4">Wanderlust.</h3>
+                <p class="text-slate-400 text-md leading-relaxed">
+                    Your journey begins here. Crafting premium, unforgettable travel experiences worldwide since 2000.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-slate-100 uppercase tracking-widest mb-6">Navigation</h4>
+                <ul class="space-y-3">
+                    <li><a href="#hero" class="text-slate-400 hover:text-white transition-colors duration-200">Home</a></li>
+                    <li><a href="#features" class="text-slate-400 hover:text-white transition-colors duration-200">Features</a></li>
+                    <li><a href="#cta" class="text-slate-400 hover:text-white transition-colors duration-200">Get Started</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-slate-100 uppercase tracking-widest mb-6">Newsletter</h4>
+                <p class="text-slate-400 text-sm mb-4 leading-relaxed">Be the first to receive secret travel deals and new tour itineraries.</p>
+                <form id="newsletter-form" class="space-y-3">
+                    <div class="relative">
+                        <input type="email" required placeholder="Your email address" class="w-full px-4 py-3 bg-slate-900 border border-slate-800 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-sm transition-colors duration-200 active:scale-95">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-slate-100 uppercase tracking-widest mb-6">Connect With Us</h4>
+                <div class="flex justify-center md:justify-start space-x-3 mb-6">
+                    <!-- Facebook -->
+                    <a href="#" class="flex items-center justify-center w-12 h-12 rounded-full border border-slate-800 bg-slate-900/50 hover:bg-gradient-to-tr hover:from-blue-600 hover:to-blue-700 hover:border-transparent text-slate-400 hover:text-white hover:scale-110 active:scale-95 shadow-sm hover:shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all duration-300" aria-label="Facebook">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.776-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <!-- Instagram (Fixed path definition) -->
+                    <a href="#" class="flex items-center justify-center w-12 h-12 rounded-full border border-slate-800 bg-slate-900/50 hover:bg-gradient-to-tr hover:from-pink-600 hover:to-orange-500 hover:border-transparent text-slate-400 hover:text-white hover:scale-110 active:scale-95 shadow-sm hover:shadow-[0_8px_20px_rgba(219,39,119,0.3)] transition-all duration-300" aria-label="Instagram">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.22 2.428.47a4.902 4.902 0 011.74 1.13 4.902 4.902 0 011.13 1.74c.25.637.42 1.363.47 2.428.05 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.22 1.79-.47 2.428a4.902 4.902 0 01-1.13 1.74 4.902 4.902 0 01-1.74 1.13c-.637.25-1.363.42-2.428.47-1.066.05-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.22-2.428-.47a4.902 4.902 0 01-1.74-1.13 4.902 4.902 0 01-1.13-1.74c-.25-.637-.42-1.363-.47-2.428C2.01 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.065.22-1.79.47-2.428a4.902 4.902 0 011.13-1.74 4.902 4.902 0 011.74-1.13c.637-.25 1.363-.42 2.428-.47C8.944 2.01 9.283 2 12 2zm0 5a5 5 0 100 10 5 5 0 000-10zm0 8a3 3 0 110-6 3 3 0 010 6zm5.6-7.5a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <!-- Twitter/X -->
+                    <a href="#" class="flex items-center justify-center w-12 h-12 rounded-full border border-slate-800 bg-slate-900/50 hover:bg-gradient-to-tr hover:from-slate-700 hover:to-slate-900 hover:border-transparent text-slate-400 hover:text-white hover:scale-110 active:scale-95 shadow-sm hover:shadow-[0_8px_20px_rgba(255,255,255,0.1)] transition-all duration-300" aria-label="Twitter">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-slate-500 text-sm">&copy; 2026 Wanderlust Adventures. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="relative w-full max-w-lg bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] overflow-hidden transform scale-95 opacity-0 transition-all duration-300" id="booking-modal-content">
+            
+            <!-- Close Button -->
+            <button onclick="closeBookingModal()" class="absolute right-5 top-5 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors z-10" aria-label="Close">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Main Form Wrapper -->
+            <div class="p-8 sm:p-10">
+                
+                <!-- Modal Header -->
+                <div id="modal-header" class="mb-8">
+                    <h3 class="text-3xl font-black text-slate-900 tracking-tight">Book a Tour</h3>
+                    <p class="text-slate-500 mt-2">Provide details below, and we'll secure the perfect arrangement for your vacation.</p>
+                </div>
+
+                <!-- Step 1: Input Form -->
+                <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider mb-2">Dream Destination</label>
+                        <select required class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 transition-all">
+                            <option value="">Select a country or region...</option>
+                            <option value="mountains">Majestic Alps (Mountain Exploration)</option>
+                            <option value="beach">Tropical Bali (Beachside Relaxation)</option>
+                            <option value="iceland">Glaciers & Geysers of Iceland</option>
+                            <option value="safari">Wild Safari Adventure in Kenya</option>
+                            <option value="japan">Cherry Blossom Festival in Japan</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider mb-2">Departure Date</label>
+                            <!-- Smart placeholder forcing to English locale format universally -->
+                            <input type="text" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" placeholder="MM / DD / YYYY" required class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider mb-2">Travelers</label>
+                            <input type="number" min="1" max="10" value="2" required class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 uppercase tracking-wider mb-2">Your Email Address</label>
+                        <input type="email" required placeholder="example@domain.com" class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 transition-all">
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="w-full py-4 mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-extrabold text-lg rounded-2xl shadow-lg hover:shadow-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 flex items-center justify-center gap-2">
+                        <span>Confirm Reservation</span>
+                    </button>
+                </form>
+
+                <!-- Loading State (Loader) -->
+                <div id="booking-loading" class="hidden py-16 flex flex-col items-center justify-center space-y-4">
+                    <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    <p class="text-slate-600 font-bold text-lg animate-pulse">Booking your adventure...</p>
+                </div>
+
+                <!-- Step 2: Success State -->
+                <div id="booking-success" class="hidden text-center py-8">
+                    <div class="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md">
+                        <svg class="w-10 h-10 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <h4 class="text-2xl font-black text-slate-900 mb-2">Congratulations! You're booked!</h4>
+                    <p class="text-slate-500 mb-6">We have sent the complete trip itinerary and next step details directly to your email.</p>
+                    
+                    <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4 mb-8 text-left">
+                        <div class="flex justify-between text-sm py-1">
+                            <span class="text-slate-400 font-medium">Order Reference:</span>
+                            <span class="font-bold text-slate-900" id="success-order-id">#WN-492038</span>
+                        </div>
+                        <div class="flex justify-between text-sm py-1">
+                            <span class="text-slate-400 font-medium">Payment Status:</span>
+                            <span class="font-bold text-emerald-600">Awaiting Settlement</span>
+                        </div>
+                    </div>
+
+                    <button onclick="closeBookingModal()" class="w-full py-3.5 bg-slate-900 text-white hover:bg-slate-800 font-bold rounded-2xl transition-all">
+                        Great, thank you!
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-3 pointer-events-none"></div>
+
+    <script>
+        // Initialize mobile menu elements
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuContent = document.getElementById('mobile-menu-content');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+
+        // Open Mobile Navigation Menu
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.add('opacity-100');
+            mobileMenuContent.classList.remove('translate-x-full');
+        });
+
+        // Close Mobile Navigation Menu
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('opacity-100');
+            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            mobileMenuContent.classList.add('translate-x-full');
+        }
+
+        closeMenuBtn.addEventListener('click', closeMobileMenu);
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) closeMobileMenu();
+        });
+
+        // Booking Modal Interactions
+        const bookingModal = document.getElementById('booking-modal');
+        const bookingModalContent = document.getElementById('booking-modal-content');
+        const bookingForm = document.getElementById('booking-form');
+        const bookingLoading = document.getElementById('booking-loading');
+        const bookingSuccess = document.getElementById('booking-success');
+        const modalHeader = document.getElementById('modal-header');
+
+        function openBookingModal() {
+            // Reset modal layout states before showing
+            bookingForm.classList.remove('hidden');
+            bookingLoading.classList.add('hidden');
+            bookingSuccess.classList.add('hidden');
+            modalHeader.classList.remove('hidden');
+            bookingForm.reset();
+
+            // Display Transition
+            bookingModal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                bookingModalContent.classList.remove('scale-95', 'opacity-0');
+            }, 50);
+        }
+
+        function closeBookingModal() {
+            bookingModalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                bookingModal.classList.add('opacity-0', 'pointer-events-none');
+            }, 200);
+        }
+
+        // Close modal upon background click
+        bookingModal.addEventListener('click', (e) => {
+            if (e.target === bookingModal) closeBookingModal();
+        });
+
+        // Process Form Submission with Realistic Delay
+        function handleBookingSubmit(event) {
+            event.preventDefault();
+
+            // Switch to Booking Loader view
+            bookingForm.classList.add('hidden');
+            modalHeader.classList.add('hidden');
+            bookingLoading.classList.remove('hidden');
+
+            // Simulate API Request
+            setTimeout(() => {
+                bookingLoading.classList.add('hidden');
+                
+                // Formulate a random order reference
+                const orderId = `WN-${Math.floor(100000 + Math.random() * 900000)}`;
+                document.getElementById('success-order-id').innerText = orderId;
+
+                bookingSuccess.classList.remove('hidden');
+                showToast('Tour successfully booked!', 'blue');
+            }, 1800);
+        }
+
+        // Handle Newsletter signup
+        const newsletterForm = document.getElementById('newsletter-form');
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const emailInput = newsletterForm.querySelector('input[type="email"]');
+            
+            showToast(`Awesome! Updates will be sent to: ${emailInput.value}`, 'green');
+            newsletterForm.reset();
+        });
+
+        // Custom Toast Notification System
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const colorClass = type === 'green' 
+                ? 'bg-emerald-900/90 border-emerald-500 text-emerald-100 shadow-[0_10px_30px_rgba(16,185,129,0.2)]' 
+                : 'bg-slate-900/90 border-blue-500 text-blue-100 shadow-[0_10px_30px_rgba(37,99,235,0.2)]';
+
+            toast.className = `flex items-center gap-3 p-4 rounded-2xl border backdrop-blur-md transition-all duration-500 transform translate-y-4 opacity-0 pointer-events-auto max-w-sm ${colorClass}`;
+            toast.innerHTML = `
+                <div class="flex-shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <p class="text-sm font-semibold">${message}</p>
+            `;
+            
+            container.appendChild(toast);
+
+            // Pop-in Transition
+            setTimeout(() => {
+                toast.classList.remove('translate-y-4', 'opacity-0');
+            }, 10);
+
+            // Automatic removal timeout (4 seconds)
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-[-10px]');
+                setTimeout(() => {
+                    toast.remove();
+                }, 500);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
